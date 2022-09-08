@@ -1,0 +1,7 @@
+// Añade el DNI al pdf de la factura del plugin Paid Memberships Pro - PDF Invoices //
+
+function my_custom_pmpro_pdf_variable( $data_array, $user, $order_data ) {
+$data_array['{{DNI}}'] = get_user_meta( $user->ID, 'dni', true );
+return $data_array;
+}
+add_filter( 'pmpro_pdf_invoice_custom_variables', 'my_custom_pmpro_pdf_variable', 10, 3 );
