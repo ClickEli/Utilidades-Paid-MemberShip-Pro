@@ -1,0 +1,32 @@
+/**
+ * Añade DNI o cualquier otro campo al registro de Paid Memberships Pro.
+ * Para que funcione debes tener el plugin PMPro & Register Helper Add On instalado.
+ * Este código puedes añadirlo al plugin PMPro Customizations Plugin o con un plugin de Code Snippets.
+ */
+
+function pmpro_add_fields_to_checkout(){
+	//don't break if Register Helper is not loaded
+	if(!function_exists( 'pmprorh_add_registration_field' )) {
+		return false;
+	}
+	
+	$fields = array();
+	$fields[] = new PMProRH_Field(
+		'dni',					// input name, will also be used as meta key
+		'text',						// type of field
+		array(
+			'label'		=> 'DNI',		// custom field label
+			'profile'	=> true,		// show in user profile
+			'required'	=> true,		// make this field required
+		)
+			);
+
+	//add the fields to default forms
+	foreach($fields as $field){
+		pmprorh_add_registration_field(
+			'checkout_boxes', // location on checkout page
+			$field	// PMProRH_Field object
+		);
+	}
+}
+add_action( 'init', 'pmpro_add_fields_to_checkout' );
